@@ -65,7 +65,9 @@ model_name = st.sidebar.selectbox(
     "Gemini model",
     ["gemini-3.8-flash", "gemini-3.6-flash"],
     index=0,
+    key="gemini_model_selectbox",
 )
+
 st.sidebar.caption("Tip: Add GEMINI_API_KEY to your local .env file or deployment secrets.")
 if not api_key:
     st.info("Add your Gemini API key in the sidebar to enable AI features. You can create one in Google AI Studio.")
