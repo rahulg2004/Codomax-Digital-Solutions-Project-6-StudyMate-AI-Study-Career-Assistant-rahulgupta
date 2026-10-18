@@ -33,12 +33,34 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+load_dotenv()
+
+# Read the API key from Streamlit Secrets first,
+# then fall back to the local .env environment.
+try:
+    default_api_key = st.secrets.get("GEMINI_API_KEY", "")
+except Exception:
+    default_api_key = ""
+
+default_api_key = default_api_key or os.getenv("GEMINI_API_KEY", "")
+
 api_key = st.sidebar.text_input(
     "Gemini API key",
-    value=os.getenv("GEMINI_API_KEY", ""),
+    value=default_api_key,
     type="password",
-    help="Your key is used only for API requests from this app. Never commit it to GitHub.",
+    help="Your key is used only for API requests. Never commit it to GitHub.",
 )
+
+model_name = st.sidebar.selectbox(
+    "Gemini model",
+    ["gemini-3.8-flash", "gemini-3.6-flash"],
+    index=0,
+)
+
+st.sidebar.caption(
+    "Configure GEMINI_API_KEY in Streamlit Secrets or your local .env file."
+)
+
 model_name = st.sidebar.selectbox(
     "Gemini model",
     ["gemini-3.8-flash", "gemini-3.6-flash"],
